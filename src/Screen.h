@@ -10,6 +10,7 @@ public:
 	const static int SCREEN_WIDTH = 800;
 	const static int SCREEN_HEIGHT = 600;
 	const static int TOTAL_PIXELS = SCREEN_WIDTH * SCREEN_HEIGHT;
+	const static int CLEAR_COLOR = 0xffffffff;
 private:
 	SDL_Window* _window;
 	SDL_Renderer* _renderer;
@@ -21,6 +22,9 @@ public:
 	bool init();
 	void close();
 	bool processEvents();
+	void setPixel(int x, int y, Uint8 red, Uint8 green, Uint8 blue);
+	void clearBuffer();
+	void update();
 };
 
 } /* namespace render */

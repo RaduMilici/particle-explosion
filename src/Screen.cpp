@@ -27,10 +27,6 @@ bool Screen::init() {
 
 	memset(_buffer, 0, TOTAL_PIXELS * sizeof(Uint32));
 
-	SDL_UpdateTexture(_texture, NULL, _buffer, SCREEN_WIDTH * sizeof(Uint32));
-	SDL_RenderClear(_renderer);
-	SDL_RenderCopy(_renderer, _texture, NULL, NULL);
-	SDL_RenderPresent(_renderer);
 
 	return true;
 }
@@ -52,6 +48,34 @@ bool Screen::processEvents() {
 		}
 	} // SDL_PollEvent
 	return true;
+}
+//--------------------------------------------------------------------------------------
+void Screen::setPixel(int x, int y, Uint8 red, Uint8 green, Uint8 blue){
+	Uint32 color = 0;
+
+	color += red;
+	color <<= 8;
+
+	color += green;
+	color <<= 8;
+
+	color += blue;
+	color <<=8;
+
+	_buffer[y * SCREEN_WIDTH + x] = color;
+}
+//--------------------------------------------------------------------------------------
+void Screen::clearBuffer(){
+	memset(_buffer, CLEAR_COLOR, TOTAL_PIXELS * sizeof(Uint32));
+}
+//--------------------------------------------------------------------------------------
+void Screen::update(){
+	SDL_UpdateTexture(_texture, NULL, _buffer, SCREEN_WIDTH * sizeof(Uint32));
+    //SDL_SetRenderDrawColor(_renderer, 0, 0, 255, 255);
+	SDL_RenderClear(_renderer);
+	SDL_RenderCopy(_renderer, _texture, NULL, NULL);
+	SDL_RenderPresent(_renderer);
+	clearBuffer();
 }
 //--------------------------------------------------------------------------------------
 
