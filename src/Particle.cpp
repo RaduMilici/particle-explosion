@@ -3,29 +3,40 @@
 
 namespace render {
 
-Particle::Particle(): x(0), y(0) {
+int Particle::num = 0;
+
+Particle::Particle() {
 	direction = randomNum(0, M_PI * 2);
 	speed = randomNum(MIN_SPEED, MAX_SPEED);
+	num++;
 
-	xSpeed = speed * cos(direction);
-	ySpeed = speed * sin(direction);
+	x = randomNum(-0.5, 0.5);
+	y = randomNum(-0.5, 0.5);
 
-	red   = randomNum(0, 255);
-	green = randomNum(0, 255);
-	blue  = randomNum(0, 255);
+	randomColor();
+
+	radius = randomNum(0.1, 0.9);
 }
 
-Particle::~Particle() {
-}
+Particle::~Particle() {}
 
-void Particle::update(int time){
-	x += xSpeed * Screen::SCREEN_HEIGHT / Screen::SCREEN_WIDTH;
-	y += ySpeed;
+void Particle::update(double delta){
+	x = sin(delta) * (cos(direction - delta * speed) * Screen::SCREEN_HEIGHT / Screen::SCREEN_WIDTH);
+	y = sin(delta) * (sin(direction - delta * speed));
+
+	//x += xSpeed * Screen::SCREEN_HEIGHT / Screen::SCREEN_WIDTH * delta;
+	//y += ySpeed * delta;
 }
 
 double Particle::randomNum(double min, double max){
 	double f = (double)rand() / RAND_MAX;
 	return min + f * (max - min);
+}
+
+void Particle::randomColor(){
+	red   = randomNum(0, 255);
+	blue  = randomNum(0, 255);
+	green = randomNum(0, 255);
 }
 
 } /* namespace render */

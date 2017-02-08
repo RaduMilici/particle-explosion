@@ -10,8 +10,9 @@ namespace render {
 
 class Particle {
 public:
-	static const double MIN_SPEED = 0.0001;
-	static const double MAX_SPEED = 0.005;
+	static int num;
+	static const double MIN_SPEED = 0.5;
+	static const double MAX_SPEED = 1;
 
 	Particle();
 	virtual ~Particle();
@@ -21,15 +22,17 @@ public:
 	double speed;
 	double direction;
 
-	char red;
-	char green;
-	char blue;
+	unsigned char red;
+	unsigned char green;
+	unsigned char blue;
 
-	void update(int time);
+	void update(double delta);
 private:
 	double xSpeed;
 	double ySpeed;
+	double radius;
 	double randomNum(double min, double max);
+	void randomColor();
 };
 
 } /* namespace render */
